@@ -1,0 +1,5 @@
+{
+  "name": "AI Resume Builder",
+  "description": "A web application that helps users create professional, metric-driven resume bullet points using AI. It features a live preview, customizable templates, and one-click PDF export.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Resume Builder</title>
+    <meta name="description" content="Generate strong, metric-driven resume bullet points with AI and export to PDF.">
+    <meta property="og:title" content="AI Resume Builder">
+    <meta property="og:description" content="Generate strong, metric-driven resume bullet points with AI and export to PDF.">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Merriweather', 'serif'],
+            },
+            colors: {
+              'primary-navy': '#0B1F3A',
+              'ink': '#0D1321',
+              'body-text': '#222222',
+              'muted-text': '#6B7280',
+              'accent-gold': '#F5C518',
+              'lines': '#E5E7EB',
+              'surface': '#FFFFFF',
+              'dark-bg': '#0C1117',
+              'dark-text': '#EAEAEA',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- html2pdf.js for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+
+    <!--
+      README: AI Resume Builder
+
+      ### How to customize palette & fonts
+      - Palette: Edit the `tailwind.config` script in `index.html`.
+      - Fonts: Change the Google Fonts `<link>` tag in `index.html` and update the `fontFamily` in `tailwind.config`.
+
+      ### How to add real contact info
+      - In `App.tsx`, modify the `initialResumeData` state object to replace placeholder contact details.
+
+      ### How to set up /api/gemini
+      This app uses a frontend-only fallback. To connect to Gemini, you need a backend endpoint.
+      Here is a sample Node.js/Express server snippet:
+
+      ```javascript
+      // server.js
+      import express from 'express';
+      import { GoogleGenAI, Type } from '@google/genai';
+
+      const app = express();
+      app.use(express.json());
+
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+      app.post('/api/gemini', async (req, res) => {
+        try {
+          const { prompt, schema } = req.body;
+          
+          const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+              responseMimeType: 'application/json',
+              responseSchema: schema,
+            },
+          });
+
+          const jsonText = response.text.trim();
+          res.json(JSON.parse(jsonText));
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Failed to generate content' });
+        }
+      });
+
+      app.listen(3001, () => console.log('Server running on port 3001'));
+      ```
+
+      ### How to deploy
+      - **Static (current setup):** Can be deployed directly to GitHub Pages, Netlify, or Vercel.
+      - **With API:** Deploy the Node.js server to a service like Vercel (as a serverless function) or Heroku, and update the `fetch` URL in `services/geminiService.ts`.
+
+      ### Notes on Accessibility and PDF Pagination
+      - **Accessibility:** The app uses semantic HTML and ARIA attributes. Ensure any new components are keyboard navigable and have proper labels.
+      - **PDF Pagination:** `html2pdf.js` handles basic pagination. For complex layouts, you might need to use CSS classes like `html2pdf__page-break` to manually suggest break points.
+    -->
+</body>
+</html>
